@@ -85,6 +85,18 @@
     details summary { cursor: pointer; color: var(--accent-blue); font-weight: 600; }
     details[open] summary { margin-bottom: 4px; }
     a { color: var(--accent-blue); }
+
+    /* Datos personalizables */
+    .ph { background: rgba(227, 179, 65, 0.18); color: #e3b341; border-radius: 3px; padding: 0 3px; }
+    .ph.filled { background: rgba(63, 185, 80, 0.18); color: #7ee787; }
+    .me-card { margin-bottom: 20px; }
+    .me-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 10px; }
+    .me-grid label { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; color: #8b949e; }
+    .me-grid input { padding: 9px 10px; background: var(--code-bg); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main); font-size: 1rem; }
+    .me-grid input:focus { outline: none; border-color: var(--accent-blue); }
+    .cmd-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .cmd-table td { padding: 7px 8px; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+    .cmd-table td:first-child { white-space: nowrap; }
   </style>
 </head>
 <body>
@@ -109,6 +121,23 @@
     <button class="distro-btn" onclick="setDistro('arch', this)">Arch Linux / Manjaro</button>
   </div>
 
+  <!-- Tus datos -->
+  <div class="card me-card">
+    <strong>Tus datos</strong>
+    <span style="color: #8b949e;"> (opcional): escríbelos aquí y se rellenan solos en todos los comandos de la guía. No se envían a ningún sitio.</span>
+    <div class="me-grid">
+      <label>Tu nombre
+        <input type="text" id="ph-nombre" placeholder="Ana García" oninput="updatePh()" autocomplete="off">
+      </label>
+      <label>Correo de tu cuenta de GitHub
+        <input type="text" id="ph-correo" placeholder="ana@correo.com" oninput="updatePh()" autocomplete="off">
+      </label>
+      <label>Tu usuario de GitHub
+        <input type="text" id="ph-usuario" placeholder="ana-garcia" oninput="updatePh()" autocomplete="off">
+      </label>
+    </div>
+  </div>
+
   <!-- Navigation Tabs -->
   <div class="nav-tabs">
     <button class="tab-btn active" onclick="openTab('tab1')">1. Instalación & SSH</button>
@@ -120,6 +149,24 @@
 
   <!-- TAB 1: Instalación y SSH -->
   <div id="tab1" class="tab-content active">
+
+    <div class="card">
+      <h2>Antes de empezar: la terminal en 6 comandos</h2>
+      <details>
+        <summary>¿Nunca has usado una terminal? Despliega esto</summary>
+        <table class="cmd-table">
+          <tr><td><code>pwd</code></td><td>Te dice en qué carpeta estás.</td></tr>
+          <tr><td><code>ls</code></td><td>Lista lo que hay en la carpeta actual.</td></tr>
+          <tr><td><code>cd carpeta</code></td><td>Entra en una carpeta. <code>cd ..</code> sube un nivel y <code>cd ~</code> vuelve a tu carpeta personal.</td></tr>
+          <tr><td><code>mkdir nombre</code></td><td>Crea una carpeta nueva.</td></tr>
+          <tr><td><code>cat archivo</code></td><td>Muestra el contenido de un archivo.</td></tr>
+          <tr><td><code>nano archivo</code></td><td>Edita un archivo (o lo crea). Guardar: <code>Ctrl+O</code> y <code>Enter</code>. Salir: <code>Ctrl+X</code>.</td></tr>
+        </table>
+        <div class="note">
+          <strong>Dos trucos:</strong> la tecla <code>Tab</code> completa nombres de archivos y carpetas, y la flecha hacia arriba recupera el comando anterior. Si algo da error, <strong>lee el mensaje</strong>: casi siempre dice qué pasa.
+        </div>
+      </details>
+    </div>
 
     <div class="card">
       <h2>0. Solo Windows: instala WSL</h2>
@@ -170,8 +217,8 @@
         <div class="step-text">
           <p>Configura tu nombre y correo (el correo debe ser el de tu cuenta de GitHub), y tres opciones que evitan problemas más adelante:</p>
           <div class="code-container">
-            git config --global user.name "Tu Nombre"<br>
-            git config --global user.email "tu-email@ejemplo.com"<br>
+            git config --global user.name "<span class="ph" data-key="nombre">Tu Nombre</span>"<br>
+            git config --global user.email "<span class="ph" data-key="correo">tu-email@ejemplo.com</span>"<br>
             git config --global init.defaultBranch main<br>
             git config --global pull.rebase false<br>
             git config --global core.editor "nano"
@@ -248,7 +295,7 @@
         <div class="step-text">
           <strong>Generar el par de claves</strong>
           <div class="code-container">
-            ssh-keygen -t ed25519 -C "tu-email@ejemplo.com"
+            ssh-keygen -t ed25519 -C "<span class="ph" data-key="correo">tu-email@ejemplo.com</span>"
             <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
           </div>
           <p style="margin-top: 10px;">Pulsa Enter a todo (ruta por defecto; la contraseña es opcional). Luego muestra tu clave pública:</p>
@@ -279,7 +326,7 @@
           </div>
           <p>Es normal: es tu ordenador comprobando que GitHub es GitHub. Escribe <code>yes</code>. Si todo va bien, te saludará:</p>
           <div class="code-container" style="padding-right: 15px;">
-            Hi TU_USUARIO! You've successfully authenticated, but GitHub does not provide shell access.
+            Hi <span class="ph" data-key="usuario">TU_USUARIO</span>! You've successfully authenticated, but GitHub does not provide shell access.
           </div>
           <div class="note highlight-item">
             RECUERDA: Al clonar o vincular repositorios, usa siempre la URL SSH (<code>git@github.com:...</code>) en lugar de HTTPS.
@@ -337,7 +384,7 @@
         <div class="step-text">
           <strong>3. Vincular con GitHub y subir código</strong>
           <div class="code-container">
-            git remote add origin git@github.com:USUARIO/mi-proyecto.git<br>
+            git remote add origin git@github.com:<span class="ph" data-key="usuario">TU_USUARIO</span>/mi-proyecto.git<br>
             git remote -v<br>
             git push -u origin main
             <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
@@ -461,13 +508,30 @@
 
     <div class="card">
       <h2>A practicar: ejercicios en equipo</h2>
-      <p style="margin-bottom: 10px;">Clona el repositorio de ejercicios y sigue las rondas con tu grupo (el README te dice qué hacer en cada una):</p>
+      <p style="margin-bottom: 10px;">Trabajaréis en grupos de 3 o 4 con un <strong>responsable</strong>. El README del repositorio de ejercicios explica cada ronda paso a paso. Para empezar (Ronda 0):</p>
+
+      <p><strong>El responsable</strong> clona el repositorio de ejercicios:</p>
       <div class="code-container">
         git clone git@github.com:skillIssu3/ejercicios-equipo.git<br>
         cd ejercicios-equipo
         <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
       </div>
-      <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;">También puedes verlo en la web: <a href="https://github.com/skillIssu3/ejercicios-equipo" target="_blank" rel="noopener">github.com/skillIssu3/ejercicios-equipo</a></p>
+      <p style="margin-top: 10px;">Crea en GitHub un repositorio <strong>vacío</strong> llamado <code>ejercicios-equipo</code> en su cuenta, apunta su copia ahí y la sube:</p>
+      <div class="code-container">
+        git remote set-url origin git@github.com:<span class="ph" data-key="usuario">TU_USUARIO</span>/ejercicios-equipo.git<br>
+        git remote -v<br>
+        git push -u origin main
+        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+      </div>
+      <p style="margin-top: 10px;">Después invita al resto en <strong>Settings &gt; Collaborators</strong>. Todos deben <strong>aceptar la invitación</strong> (llega por correo).</p>
+
+      <p style="margin-top: 14px;"><strong>El resto del equipo</strong> clona el repo <strong>del responsable</strong>, no el de la organización:</p>
+      <div class="code-container">
+        git clone git@github.com:USUARIO_DEL_RESPONSABLE/ejercicios-equipo.git<br>
+        cd ejercicios-equipo
+        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+      </div>
+      <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;">Sustituye <code>USUARIO_DEL_RESPONSABLE</code> por su usuario de GitHub. Instrucciones completas de todas las rondas: <a href="https://github.com/skillIssu3/ejercicios-equipo" target="_blank" rel="noopener">github.com/skillIssu3/ejercicios-equipo</a></p>
     </div>
   </div>
 
@@ -607,6 +671,40 @@
       btn.innerText = '¡Copiado!';
       setTimeout(() => btn.innerText = 'Copiar', 2000);
     }
+
+    // Datos personalizables (se guardan solo en este navegador)
+    const PH_DEFAULTS = { nombre: 'Tu Nombre', correo: 'tu-email@ejemplo.com', usuario: 'TU_USUARIO' };
+    const PH_KEYS = ['nombre', 'correo', 'usuario'];
+
+    function cleanValue(key, v) {
+      v = v.trim();
+      if (key === 'usuario') return v.replace(/[^A-Za-z0-9-]/g, '');
+      if (key === 'correo') return v.replace(/[\s"'`$\\]/g, '');
+      return v.replace(/["`$\\]/g, '');
+    }
+
+    function updatePh() {
+      PH_KEYS.forEach(key => {
+        const input = document.getElementById('ph-' + key);
+        const value = cleanValue(key, input.value);
+        document.querySelectorAll('.ph[data-key="' + key + '"]').forEach(el => {
+          el.textContent = value || PH_DEFAULTS[key];
+          el.classList.toggle('filled', value !== '');
+        });
+        try { localStorage.setItem('git-guia-' + key, input.value); } catch (e) {}
+      });
+    }
+
+    function loadPh() {
+      PH_KEYS.forEach(key => {
+        try {
+          const saved = localStorage.getItem('git-guia-' + key);
+          if (saved) document.getElementById('ph-' + key).value = saved;
+        } catch (e) {}
+      });
+      updatePh();
+    }
+    loadPh();
 
     // Conflict Simulator
     function resolveSim(type) {
