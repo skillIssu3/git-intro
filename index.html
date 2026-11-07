@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Calendario · 1º ING EIA+ · Deusto 2025-26</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--border:#30363d;--cyan:#00d4aa;--cyan-dim:rgba(0,212,170,0.13);--cyan-mid:rgba(0,212,170,0.22);--amber:#f59e0b;--amber-dim:rgba(245,158,11,0.13);--red:#ff6b7a;--red-dim:rgba(200,16,46,0.16);--blue:#58a6ff;--blue-dim:rgba(88,166,255,0.13);--purple:#bc8cff;--purple-dim:rgba(188,140,255,0.13);--green:#3fb950;--green-dim:rgba(63,185,80,0.13);--text:#e6edf3;--text2:#8b949e;--text3:#484f58;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent;}
+
+.header{display:flex;align-items:center;padding:.75rem 1rem;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;gap:.6rem;}
+.badge{font-family:'Fira Code',monospace;font-size:.58rem;font-weight:600;padding:3px 7px;border-radius:4px;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;flex-shrink:0;}
+.badge-red{background:var(--red-dim);color:var(--red);border:1px solid rgba(200,16,46,.3);}
+.badge-cyan{background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,212,170,.3);}
+.h-info{flex:1;min-width:0;}
+.h-info h1{font-size:.82rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.h-info small{font-size:.6rem;color:var(--text2);font-weight:300;}
+.today-btn{font-family:'Fira Code',monospace;font-size:.6rem;background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,212,170,.3);padding:6px 10px;border-radius:7px;cursor:pointer;white-space:nowrap;flex-shrink:0;min-height:36px;-webkit-appearance:none;}
+.today-btn:active{background:var(--cyan-mid);}
+
+.tl-wrap{background:var(--bg2);border-bottom:1px solid var(--border);padding:.55rem 1rem .6rem;}
+.tl-label{font-family:'Fira Code',monospace;font-size:.52rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem;}
+.tl-bar{height:20px;background:var(--bg3);border-radius:5px;border:1px solid var(--border);display:flex;overflow:hidden;position:relative;}
+.tl-seg{height:100%;font-size:0;}
+.s-c1{width:31.4%;background:rgba(63,185,80,.22);}
+.s-e1{width:2.6%;background:rgba(245,158,11,.25);}
+.s-nv{width:5%;background:rgba(88,166,255,.22);}
+.s-e2{width:2.6%;background:rgba(245,158,11,.22);}
+.s-ex{width:4%;background:rgba(245,158,11,.14);border-left:1px solid rgba(245,158,11,.4);}
+.s-c2a{width:18.5%;background:rgba(63,185,80,.17);}
+.s-ss{width:3.6%;background:rgba(88,166,255,.22);}
+.s-c2b{width:12.9%;background:rgba(63,185,80,.17);}
+.s-e3{width:5.3%;background:rgba(245,158,11,.25);}
+.s-ex2{width:3.3%;background:rgba(245,158,11,.14);border-left:1px solid rgba(245,158,11,.3);}
+.s-fin{width:10.8%;background:rgba(188,140,255,.14);}
+.tl-now{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--cyan);box-shadow:0 0 6px var(--cyan);border-radius:2px;z-index:5;}
+.tl-now::after{content:'HOY';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-family:'Fira Code',monospace;font-size:.45rem;color:var(--cyan);white-space:nowrap;letter-spacing:.07em;}
+
+/* Month strip */
+.strip-wrap{overflow-x:auto;padding:.6rem 1rem .4rem;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.strip-wrap::-webkit-scrollbar{display:none;}
+.strip{display:flex;gap:5px;width:max-content;}
+.mpill{font-family:'Fira Code',monospace;font-size:.6rem;padding:5px 10px;border-radius:6px;cursor:pointer;background:var(--bg3);color:var(--text3);border:1px solid var(--border);white-space:nowrap;min-height:32px;display:flex;align-items:center;}
+.mpill.active{background:var(--cyan-dim);color:var(--cyan);border-color:rgba(0,212,170,.4);}
+
+/* Month nav */
+.mnav{display:flex;align-items:center;padding:.6rem 1rem .4rem;gap:.6rem;}
+.mnavbtn{width:44px;height:44px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:10px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;-webkit-appearance:none;}
+.mnavbtn:active{background:var(--bg2);border-color:var(--cyan);color:var(--cyan);}
+.mnav-center{flex:1;text-align:center;}
+.m-name{font-size:1.35rem;font-weight:700;letter-spacing:-.03em;line-height:1;}
+.m-year{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--text3);}
+.m-sem{font-size:.6rem;color:var(--cyan);font-family:'Fira Code',monospace;margin-top:1px;}
+
+/* Calendar grid */
+.cal-wrap{padding:0 .75rem;}
+.dnames{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;}
+.dname{text-align:center;font-family:'Fira Code',monospace;font-size:.6rem;color:var(--text3);letter-spacing:.06em;padding:3px 0;}
+.cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.day{aspect-ratio:1;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid transparent;cursor:pointer;position:relative;transition:transform .1s;user-select:none;}
+.day.empty{border:none;cursor:default;background:none!important;}
+.day:not(.empty):active{transform:scale(.88);}
+.dnum{font-family:'Fira Code',monospace;font-size:.88rem;font-weight:500;line-height:1;}
+.ddots{display:flex;gap:2px;margin-top:3px;min-height:4px;justify-content:center;}
+.ddot{width:4px;height:4px;border-radius:50%;}
+.day.weekend .dnum{color:var(--text3);}
+.day.festivo{background:var(--red-dim);border-color:rgba(200,16,46,.22);}
+.day.festivo .dnum{color:var(--red);}
+.day.examen{background:var(--amber-dim);border-color:rgba(245,158,11,.28);}
+.day.examen .dnum{color:var(--amber);}
+.day.lectivo{background:var(--green-dim);border-color:rgba(63,185,80,.22);}
+.day.lectivo .dnum{color:var(--green);font-weight:700;}
+.day.nolectivo{background:var(--bg3);}
+.day.nolectivo .dnum{color:var(--text3);}
+.day.vacaciones{background:var(--blue-dim);border-color:rgba(88,166,255,.22);}
+.day.vacaciones .dnum{color:var(--blue);}
+.day.graduacion{background:rgba(107,114,128,.18);border-color:rgba(107,114,128,.22);}
+.day.graduacion .dnum{color:#6b7280;}
+.day.especial{background:rgba(0,212,170,.09);border-color:rgba(0,212,170,.18);}
+.day.especial .dnum{color:var(--cyan);}
+.day.ex-propio{background:rgba(255,100,60,.18);border-color:rgba(255,100,60,.4);border-width:2px;}
+.day.ex-propio .dnum{color:#ff6438;font-weight:700;}
+.day.lab{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.4);border-width:2px;}
+.day.lab .dnum{color:#22c55e;font-weight:700;}
+.day.ex-duda{background:rgba(148,163,184,.15);border:2px dashed rgba(148,163,184,.5);}
+.day.ex-duda .dnum{color:#94a3b8;font-weight:700;}
+.day.revision{background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.4);border-width:2px;}
+.day.revision .dnum{color:#a78bfa;font-weight:700;}
+.day.today{outline:2px solid var(--cyan);outline-offset:1px;box-shadow:0 0 12px rgba(0,212,170,.25);}
+.day.today .dnum{color:var(--cyan)!important;font-weight:700;}
+
+/* Sections below calendar (mobile) */
+.sec{padding:1rem 1rem .2rem;}
+.sec-title{font-family:'Fira Code',monospace;font-size:.55rem;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;padding-bottom:.45rem;border-bottom:1px solid var(--border);margin-bottom:.6rem;}
+.phases-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;}
+.pc{background:var(--bg2);border:1px solid var(--border);border-left-width:3px;border-radius:8px;padding:.55rem .7rem;cursor:pointer;-webkit-appearance:none;}
+.pc:active{background:var(--bg3);}
+.pc-label{font-size:.67rem;font-weight:600;margin-bottom:1px;line-height:1.3;}
+.pc-dates{font-family:'Fira Code',monospace;font-size:.55rem;color:var(--text2);}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;margin-bottom:2rem;}
+.legrow{display:flex;align-items:center;gap:.4rem;font-size:.65rem;color:var(--text2);}
+.legdot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+
+/* Bottom sheet */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;backdrop-filter:blur(3px);}
+.overlay.open{display:block;}
+.sheet{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);border-radius:18px 18px 0 0;z-index:201;transform:translateY(100%);transition:transform .28s cubic-bezier(.32,.72,0,1);max-height:72vh;display:flex;flex-direction:column;}
+.sheet.open{transform:translateY(0);}
+.sheet-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:10px auto 0;flex-shrink:0;}
+.sheet-header{display:flex;align-items:center;gap:.6rem;padding:.75rem 1.2rem .5rem;flex-shrink:0;border-bottom:1px solid var(--border);}
+.sheet-date{font-family:'Fira Code',monospace;font-size:1.05rem;font-weight:600;color:var(--cyan);}
+.sheet-mname{font-size:.78rem;color:var(--text2);}
+.sheet-close{margin-left:auto;background:var(--bg3);border:1px solid var(--border);color:var(--text2);width:32px;height:32px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;-webkit-appearance:none;flex-shrink:0;}
+.sheet-body{overflow-y:auto;padding:.5rem 1.2rem 2rem;-webkit-overflow-scrolling:touch;}
+.s-ev{display:flex;align-items:flex-start;gap:.7rem;padding:.65rem 0;border-bottom:1px solid var(--border);}
+.s-ev:last-child{border-bottom:none;}
+.s-ev-bar{width:3px;border-radius:2px;align-self:stretch;flex-shrink:0;min-height:16px;}
+.s-ev-txt{font-size:.82rem;color:var(--text);line-height:1.45;}
+.s-ev-type{font-family:'Fira Code',monospace;font-size:.58rem;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;}
+.s-empty{font-size:.75rem;color:var(--text3);padding:.8rem 0;}
+
+/* Desktop sidebar */
+@media(min-width:700px){
+  .desktop-layout{display:grid;grid-template-columns:1fr 270px;}
+  .main-col{border-right:1px solid var(--border);}
+  .side-col{padding:1.2rem;overflow-y:auto;max-height:calc(100vh - 116px);position:sticky;top:116px;}
+  .phases-grid,.legend{grid-template-columns:1fr;}
+  .mobile-only{display:none!important;}
+  .side-col .sec-title{font-family:'Fira Code',monospace;font-size:.55rem;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;padding-bottom:.45rem;border-bottom:1px solid var(--border);margin-bottom:.6rem;}
+  .side-sec{margin-bottom:1.4rem;}
+  .d-ev{display:flex;align-items:flex-start;gap:.5rem;padding:.38rem 0;border-bottom:1px solid var(--border);}
+  .d-ev:last-child{border-bottom:none;}
+  .d-ev-day{font-family:'Fira Code',monospace;font-size:.63rem;font-weight:600;color:var(--text2);min-width:22px;flex-shrink:0;}
+  .d-ev-bar{width:3px;border-radius:2px;flex-shrink:0;align-self:stretch;min-height:12px;}
+  .d-ev-txt{font-size:.66rem;color:var(--text);line-height:1.4;}
+  .cgrid{grid-auto-rows:min(calc((100vw - 270px - 1.5rem) / 7), 90px);}
+  .day{aspect-ratio:unset;height:100%;}
+}
+@keyframes fadeIn{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:none}}
+.day.tutoria{background:rgba(244,114,182,.18);border-color:rgba(244,114,182,.4);border-width:2px;}
+.day.tutoria .dnum{color:#f472b6;font-weight:700;}
+.day.ex-ordinaria{background:rgba(6,182,212,.18);border-color:rgba(6,182,212,.4);border-width:2px;}
+.day.ex-ordinaria .dnum{color:#06b6d4;font-weight:700;}
+/* Modal añadir evento */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;backdrop-filter:blur(4px);}
+.modal-overlay.open{display:block;}
+.modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.95);background:var(--bg2);border:1px solid var(--border);border-radius:16px;z-index:301;width:90%;max-width:420px;max-height:90vh;overflow-y:auto;transition:transform .2s,opacity .2s;opacity:0;pointer-events:none;}
+.modal.open{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:all;}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem .6rem;border-bottom:1px solid var(--border);}
+.modal-title{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--cyan);letter-spacing:.1em;}
+.modal-close{background:var(--bg3);border:1px solid var(--border);color:var(--text2);width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;}
+.modal-body{padding:1rem 1.2rem 1.4rem;display:flex;flex-direction:column;gap:.8rem;}
+.form-group{display:flex;flex-direction:column;gap:.3rem;}
+.form-group label{font-family:'Fira Code',monospace;font-size:.58rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;}
+.form-group .opt{color:var(--text3);font-size:.5rem;margin-left:.3rem;}
+.form-group input,.form-group select{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.5rem .7rem;border-radius:7px;font-family:'Sora',sans-serif;font-size:.78rem;outline:none;-webkit-appearance:none;}
+.form-group input:focus,.form-group select:focus{border-color:var(--cyan);}
+.form-group select option{background:var(--bg3);}
+.modal-error{font-size:.72rem;color:var(--red);display:none;padding:.4rem .6rem;background:var(--red-dim);border-radius:6px;}
+.modal-error.show{display:block;}
+.modal-submit{background:var(--cyan);color:#0d1117;border:none;padding:.65rem;border-radius:8px;font-family:'Fira Code',monospace;font-size:.75rem;font-weight:700;cursor:pointer;margin-top:.2rem;}
+.modal-submit:disabled{background:var(--bg3);color:var(--text3);cursor:not-allowed;}
+.add-btn{font-family:'Fira Code',monospace;font-size:.75rem;background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,212,170,.3);padding:6px 12px;border-radius:7px;cursor:pointer;white-space:nowrap;flex-shrink:0;min-height:36px;-webkit-appearance:none;}
+.add-btn:active{background:var(--cyan-mid);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="badge badge-red">Deusto</span>
+  <div class="h-info">
+    <h1>1º ING EIA+ Informática</h1>
+    <small>Calendario Académico 2025–2026</small>
+  </div>
+  <button class="today-btn" onclick="goToday()">→ HOY</button>
+  <button class="add-btn" onclick="openModal()">+ Evento</button>
+</div>
+
+<div class="tl-wrap">
+  <div class="tl-label">// progreso del curso · sep 2025 → jul 2026</div>
+  <div class="tl-bar">
+    <div class="tl-seg s-c1"></div><div class="tl-seg s-e1"></div>
+    <div class="tl-seg s-nv"></div><div class="tl-seg s-e2"></div>
+    <div class="tl-seg s-ex"></div><div class="tl-seg s-c2a"></div>
+    <div class="tl-seg s-ss"></div><div class="tl-seg s-c2b"></div>
+    <div class="tl-seg s-e3"></div><div class="tl-seg s-ex2"></div>
+    <div class="tl-seg s-fin"></div>
+    <div class="tl-now" id="tlNow"></div>
+  </div>
+</div>
+
+<div class="desktop-layout">
+  <!-- MAIN -->
+  <div class="main-col">
+    <div class="strip-wrap"><div class="strip" id="strip"></div></div>
+    <div class="mnav">
+      <button class="mnavbtn" onclick="chMonth(-1)">‹</button>
+      <div class="mnav-center">
+        <div class="m-name" id="mName"></div>
+        <div class="m-year" id="mYear"></div>
+        <div class="m-sem" id="mSem"></div>
+      </div>
+      <button class="mnavbtn" onclick="chMonth(1)">›</button>
+    </div>
+    <div class="cal-wrap">
+      <div class="dnames">
+        <div class="dname">L</div><div class="dname">M</div><div class="dname">X</div>
+        <div class="dname">J</div><div class="dname">V</div>
+        <div class="dname" style="color:#555">S</div><div class="dname" style="color:#555">D</div>
+      </div>
+      <div class="cgrid" id="cgrid"></div>
+    </div>
+    <!-- Mobile-only sections -->
+    <div class="sec mobile-only" id="phaseSec">
+      <div class="sec-title">// fases del curso</div>
+      <div class="phases-grid" id="phasesM"></div>
+    </div>
+    <div class="sec mobile-only">
+      <div class="sec-title">// leyenda</div>
+      <div class="legend" id="legendM"></div>
+    </div>
+  </div>
+
+  <!-- DESKTOP SIDEBAR -->
+  <div class="side-col" id="sideCol">
+    <div class="side-sec">
+      <div class="sec-title" id="evTitleD">// este mes</div>
+      <div id="evListD"></div>
+    </div>
+    <div class="side-sec">
+      <div class="sec-title">// fases del curso</div>
+      <div class="phases-grid" id="phasesD"></div>
+    </div>
+    <div class="side-sec">
+      <div class="sec-title">// leyenda</div>
+      <div class="legend" id="legendD"></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM SHEET -->
+<div class="overlay" id="overlay" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-date" id="sheetDate"></div>
+    <div class="sheet-mname" id="sheetMname"></div>
+    <button class="sheet-close" onclick="closeSheet()">✕</button>
+  </div>
+  <div class="sheet-body" id="sheetBody"></div>
+</div>
+
+<!-- MODAL AÑADIR EVENTO -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+<div class="modal" id="modal">
+  <div class="modal-header">
+    <span class="modal-title">// añadir evento</span>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Fecha</label>
+      <input type="date" id="evDate" />
+    </div>
+    <div class="form-group">
+      <label>Categoría</label>
+      <select id="evCat">
+        <option value="ex-propio">📝 Examen</option>
+        <option value="ex-ordinaria">📋 Examen Ordinaria</option>
+        <option value="ex-duda">❓ Examen (por confirmar)</option>
+        <option value="revision">🔍 Revisión</option>
+        <option value="tutoria">🎓 Tutoría</option>
+        <option value="lab">🧪 Práctica laboratorio</option>
+        <option value="especial">📌 Especial</option>
+        <option value="festivo">🔴 Festivo</option>
+        <option value="nolectivo">⚫ No lectivo</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Descripción</label>
+      <input type="text" id="evDesc" placeholder="Ej: Matemáticas: CE2" />
+    </div>
+    <div class="form-group">
+      <label>Hora <span class="opt">(opcional)</span></label>
+      <input type="time" id="evTime" />
+    </div>
+    <div class="form-group">
+      <label>Aula / Lugar <span class="opt">(opcional)</span></label>
+      <input type="text" id="evAula" placeholder="Ej: Aula E-105" />
+    </div>
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" id="evPassword" placeholder="••••••••••" />
+    </div>
+    <div class="modal-error" id="modalError"></div>
+    <button class="modal-submit" id="modalSubmit" onclick="submitEvent()">▶ Guardar evento</button>
+  </div>
+</div>
+
+<script>
+const TODAY=new Date();
+const MONTH_ES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const ML=[
+  {y:2025,m:8, name:'Septiembre',short:'SEP 25',sem:'1er semestre'},
+  {y:2025,m:9, name:'Octubre',   short:'OCT 25',sem:'1er semestre'},
+  {y:2025,m:10,name:'Noviembre', short:'NOV 25',sem:'1er semestre'},
+  {y:2025,m:11,name:'Diciembre', short:'DIC 25',sem:'1er semestre'},
+  {y:2026,m:0, name:'Enero',     short:'ENE 26',sem:'1er semestre'},
+  {y:2026,m:1, name:'Febrero',   short:'FEB 26',sem:'1º · 2º sem.'},
+  {y:2026,m:2, name:'Marzo',     short:'MAR 26',sem:'2º semestre'},
+  {y:2026,m:3, name:'Abril',     short:'ABR 26',sem:'2º semestre'},
+  {y:2026,m:4, name:'Mayo',      short:'MAY 26',sem:'2º semestre'},
+  {y:2026,m:5, name:'Junio',     short:'JUN 26',sem:'2º semestre'},
+  {y:2026,m:6, name:'Julio',     short:'JUL 26',sem:'2º semestre'},
+];
+const EV=[
+  [2025,8,4,'especial','Acogida 1er curso — día 1'],
+  [2025,8,5,'especial','Acogida 1er curso — día 2'],
+  [2025,8,8,'lectivo','▶ Inicio clases 1er semestre'],
+  [2025,8,10,'especial','Eucaristía Beato Francisco Garate'],
+  [2025,8,24,'nolectivo','Acto de Apertura del curso. No lectivo'],
+  [2025,9,17,'graduacion','Graduación CC. Económicas (Executive)'],
+  [2025,9,23,'graduacion','Graduación CC. Sociales y Humanas (DeustoBide)'],
+  [2025,10,1,'festivo','Todos los Santos — Festivo'],
+  [2025,10,3,'especial','Eucaristía de Difuntos'],
+  [2025,10,25,'especial','Consejo Académico — 1ª sesión'],
+  [2025,11,6,'festivo','Día de la Constitución — Festivo'],
+  [2025,11,8,'festivo','Inmaculada Concepción — Festivo'],
+  [2025,11,9,'festivo','Patronos de las Facultades — Festivo'],
+  [2025,11,10,'examen','Eval. adelantada Movilidad (inicio)'],
+  [2025,11,11,'especial','Eucaristía de Adviento / Navidad'],
+  [2025,11,12,'lectivo','◼ Último día lectivo 1er semestre'],
+  [2025,11,15,'examen','▶ 1ª Fase Eval. Ordinaria 1er semestre'],
+  [2025,11,22,'examen','◼ Fin 1ª Fase Eval. Ordinaria 1er semestre'],
+  [2025,11,23,'nolectivo','No lectivo'],
+  [2025,11,24,'vacaciones','▶ Vacaciones de Navidad'],
+  [2026,0,7,'nolectivo','No lectivo'],
+  [2026,0,8,'examen','▶ 2ª Fase Eval. Ordinaria 1er semestre'],
+  [2026,0,15,'examen','◼ Fin 2ª Fase Eval. Ordinaria 1er semestre'],
+  [2026,0,17,'especial','Puertas abiertas'],
+  [2026,0,22,'especial','Día del Deporte'],
+  [2026,0,23,'examen','▶ Eval. Extraordinaria 1er semestre'],
+  [2026,0,28,'nolectivo','Santo Tomás Aquino — No lectivo'],
+  [2026,0,30,'examen','Límite confirmación notas Eval. Ordinaria 1er'],
+  [2026,0,31,'graduacion','Graduación Facultad de Derecho'],
+  [2026,1,3,'examen','◼ Fin Eval. Extraordinaria 1er semestre'],
+  [2026,1,4,'lectivo','▶ Inicio clases 2º semestre'],
+  [2026,1,6,'graduacion','Graduación Educación y Deporte (Másteres)'],
+  [2026,1,7,'graduacion','Graduación CC. Sociales y Humanas'],
+  [2026,1,14,'especial','Puertas abiertas'],
+  [2026,1,14,'examen','Límite confirmación notas Eval. Extraordinaria 1er'],
+  [2026,1,18,'especial','Eucaristía de Ceniza'],
+  [2026,1,21,'graduacion','Graduación CC. Económicas (PCEOs)'],
+  [2026,1,27,'graduacion','Graduación CC. Económicas (Másteres)'],
+  [2026,1,28,'graduacion','Graduación CC. Económicas (Grados y PFCs)'],
+  [2026,1,26,'lab','🧪 Práctica Laboratorio Química P1 — 14:00–16:00'],
+  [2026,2,26,'lab','🧪 Práctica Laboratorio Química P2 — 14:00–16:00'],
+  [2026,4,7,'lab','🧪 Práctica Laboratorio Química P3 — 14:00–16:00'],
+  [2026,2,16,'ex-propio','📝 Matemáticas Discretas: CE1 - 15:00 · Aula DBS-13'],
+  [2026,2,23,'ex-propio','📝 Programación II: CE1 - 12:00 · Aula E-105'],
+  [2026,2,26,'ex-propio','📝 Química: Microexamen Formulación'],
+  [2026,2,5,'especial','Consejo Académico — 2ª sesión'],
+  [2026,2,7,'graduacion','Graduación Educación y Deporte (Grados)'],
+  [2026,2,13,'graduacion','Graduación Facultad de Ingeniería — día 1'],
+  [2026,2,14,'graduacion','Graduación Facultad de Ingeniería — día 2'],
+  [2026,2,19,'festivo','San José — Festivo'],
+  [2026,2,20,'nolectivo','Puente'],
+  [2026,2,24,'especial','📌 Fundamentos Físicos de la Mecánica: Tutoría sobre examen - 14:00'],
+  [2026,2,25,'revision','🔍 Fundamentos Físicos de la Mecánica: Revisión CE1 - 15:00'],
+  [2026,4,8,'ex-propio','📝 Fundamentos Físicos de la Mecánica: CE2'],
+  [2026,3,23,'ex-propio','📝 Química: CE2'],
+  [2026,3,27,'ex-propio','📝 Matemáticas Discretas: CE2'],
+  [2026,3,28,'ex-propio','📝 Cálculo II: CE2 · Aula DBS-12'],
+  [2026,3,23,'revision','🔍 Química: Revisión Formulación - 14:00 · Sala Tutoría 3 (P5)'],
+  [2026,3,24,'tutoria','🎓 Mecánica: Reunión con Maider - 14:00'],
+  [2026,4,5,'ex-propio','📝 Programación II: CE2 - 15:00 · Aula E-105'],
+  [2026,4,7,'revision','🔍 Química: Revisión CE2 - 13:00 · Sala Tutorías 2 (P5)'],
+  [2026,4,12,'especial','📌 Presentación Participación Social y Valores - 14:00 · Auditorio UD'],
+  [2026,4,19,'tutoria','🎓 Tutoría grupal de evaluación - 14:00 · José Luis del Val'],
+  [2026,4,22,'especial','📌 Fundamentos Físicos de la Mecánica: Charla CE3 - 12:00 · Auditorio'],
+  [2026,3,1,'nolectivo','No lectivo'],
+  [2026,3,2,'vacaciones','▶ Jueves Santo — Vacaciones Semana Santa'],
+  [2026,3,14,'ex-propio','📝 Electrónica: CE2 - 15:00 · Aula E-305<div style="margin-top:.35rem;font-size:.7rem;color:var(--text2);font-family:Fira Code,monospace;line-height:1.75">· Binario Puro sin signo<br>· Decimal → Binario<br>· Binario puro con signo en C2<br>· Decimal a Binario puro con signo en C2<br>· BCD<br>· HEX</div>'],
+  [2026,4,1,'festivo','Fiesta del Trabajo — Festivo'],
+  [2026,4,18,'ex-propio','📋 Química: Entrega informes prácticas laboratorio (límite)'],
+  [2026,4,22,'lectivo','◼ Fin período lectivo 2º semestre'],
+  [2026,4,25,'examen','▶ Eval. Ordinaria 2º semestre (inicio)'],
+  [2026,5,9,'examen','◼ Fin Eval. Ordinaria 2º semestre'],
+  [2026,4,27,'ex-ordinaria','📝 Química: Ordinaria - 08:30 · Aulas E-306/E-307'],
+  [2026,4,29,'ex-ordinaria','📝 Matemáticas Discretas: Ordinaria - 08:30 · Aula E-218'],
+  [2026,5,2,'ex-ordinaria','📝 Fundamentos Físicos de la Mecánica: Ordinaria - 08:30 · Aulas E-310/311/312'],
+  [2026,5,5,'ex-ordinaria','📝 Cálculo II: Ordinaria - 08:30 · Aulas E-305/306/307'],
+  [2026,5,8,'ex-ordinaria','📝 Electrónica: Ordinaria - 08:30 · Aulas E-310/311/312'],
+  [2026,5,9,'ex-ordinaria','📝 Programación II: Ordinaria - 08:30 · Aulas E-105/E-106'],
+  [2026,5,15,'revision','🔍 Cálculo II: Revisión Ordinaria - 09:30 · Despacho 563-D'],
+  [2026,5,15,'revision','🔍 Matemáticas Discretas: Revisión Ordinaria - 08:00 · Decanato Ingeniería'],
+  [2026,5,15,'revision','🔍 Programación II: Revisión Ordinaria - 10:00 · Despacho 539-D'],
+  [2026,5,17,'revision','🔍 Electrónica: Revisión Ordinaria - 09:00 · Despacho 534-D'],
+  [2026,5,10,'revision','🔍 Fundamentos Físicos de la Mecánica: Revisión Ordinaria - 10:30 · Sala Tutoría 1 (P5 ESIDE)'],
+  [2026,5,10,'revision','🔍 Química: Revisión Ordinaria - 10:00 · Sala Tutoría 2 (P5 ESIDE)'],
+  [2026,5,17,'examen','▶ Eval. Extraordinaria 2º semestre'],
+  [2026,5,18,'especial','Consejo Académico — 3ª sesión'],
+  [2026,5,23,'examen','Límite confirmación notas Eval. Ordinaria 2º'],
+  [2026,5,26,'examen','◼ Fin Eval. Extraordinaria 2º semestre'],
+  [2026,6,8,'examen','◼ Límite confirmación notas — FIN DEL CURSO'],
+  [2026,6,25,'festivo','Santiago Apóstol — Festivo'],
+  [2026,6,31,'festivo','San Ignacio de Loyola — Festivo'],
+];
+const VAC=[[2025,11,24,2026,0,6],[2026,3,2,2026,3,12]];
+const TC={festivo:'#ff6b7a','tutoria':'#f472b6',examen:'#f59e0b','ex-propio':'#ff6438','ex-ordinaria':'#06b6d4','ex-duda':'#94a3b8',revision:'#a78bfa',lab:'#22c55e',lectivo:'#3fb950',nolectivo:'#484f58',vacaciones:'#58a6ff',graduacion:'#6b7280',especial:'#00d4aa'};
+const PRI=['ex-propio','ex-ordinaria','ex-duda','revision','tutoria','lab','festivo','examen','lectivo','vacaciones','graduacion','especial','nolectivo'];
+const TL={festivo:'Festivo','tutoria':'Tutoría',examen:'Evaluación oficial','ex-propio':'Examen','ex-ordinaria':'Examen Ordinaria','ex-duda':'Examen (por confirmar)',revision:'Revisión',lab:'Práctica de laboratorio',lectivo:'Lectivo',nolectivo:'No lectivo',vacaciones:'Vacaciones',graduacion:'Graduación',especial:'Evento especial'};
+const EM={};
+for(const e of EV){const k=`${e[0]}-${e[1]}-${e[2]}`;if(!EM[k])EM[k]=[];EM[k].push(e);}
+const PHASES=[
+  {label:'Clases 1er Sem.',        dates:'8 sep – 12 dic 2025',     color:'#3fb950',idx:0},
+  {label:'Eval. Ord. 1ª Fase',     dates:'15 – 22 dic 2025',        color:'#f59e0b',idx:3},
+  {label:'Navidad',                dates:'24 dic – 7 ene 2026',     color:'#58a6ff',idx:3},
+  {label:'Eval. Ord. 2ª Fase',     dates:'8 – 15 ene 2026',         color:'#f59e0b',idx:4},
+  {label:'Eval. Extr. 1er sem.',   dates:'23 ene – 3 feb 2026',     color:'#f59e0b',idx:4},
+  {label:'Clases 2º Sem.',         dates:'4 feb – 22 may 2026',     color:'#3fb950',idx:5},
+  {label:'Semana Santa',           dates:'2 – 12 abr 2026',         color:'#58a6ff',idx:7},
+  {label:'Eval. Ord. 2º sem.',     dates:'25 may – 9 jun 2026',     color:'#f59e0b',idx:8},
+  {label:'Eval. Extr. 2º sem.',    dates:'17 – 26 jun 2026',        color:'#f59e0b',idx:9},
+  {label:'Fin del curso',          dates:'8 jul 2026',               color:'#bc8cff',idx:10},
+];
+const LEG=[['#ff6438','Examen (propio)'],['#06b6d4','Examen Ordinaria'],['#f472b6','Tutoría'],['#94a3b8','Examen (por confirmar)'],['#a78bfa','Revisión'],['#22c55e','Práctica laboratorio'],['#3fb950','Inicio/fin lectivo'],['#f59e0b','Evaluación oficial'],['#ff6b7a','Festivo'],['#58a6ff','Vacaciones'],['#6b7280','Graduación'],['#00d4aa','Especial'],['#484f58','No lectivo']];
+
+function isVac(y,m,d){const t=new Date(y,m,d).getTime();for(const r of VAC)if(t>=new Date(r[0],r[1],r[2]).getTime()&&t<=new Date(r[3],r[4],r[5]).getTime())return true;return false;}
+
+let ci=ML.findIndex(m=>m.y===TODAY.getFullYear()&&m.m===TODAY.getMonth());
+if(ci<0)ci=0;
+
+function renderStrip(){
+  document.getElementById('strip').innerHTML=ML.map((m,i)=>
+    `<div class="mpill${i===ci?' active':''}" onclick="goM(${i})">${m.short}</div>`
+  ).join('');
+  requestAnimationFrame(()=>{
+    const a=document.querySelector('.mpill.active');
+    if(a)a.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+  });
+}
+
+function renderCal(){
+  const{y,m,name,sem}=ML[ci];
+  document.getElementById('mName').textContent=name;
+  document.getElementById('mYear').textContent=y;
+  document.getElementById('mSem').textContent=sem;
+  const fd=new Date(y,m,1).getDay(),off=(fd+6)%7,days=new Date(y,m+1,0).getDate();
+  let h='';
+  for(let i=0;i<off;i++)h+='<div class="day empty"></div>';
+  for(let d=1;d<=days;d++){
+    const dow=new Date(y,m,d).getDay(),wk=dow===0||dow===6;
+    const tod=y===TODAY.getFullYear()&&m===TODAY.getMonth()&&d===TODAY.getDate();
+    const k=`${y}-${m}-${d}`,evs=EM[k]||[],vac=!evs.length&&isVac(y,m,d);
+    let type='';
+    if(evs.length){const tp=evs.map(e=>e[3]);for(const p of PRI)if(tp.includes(p)){type=p;break;}}
+    else if(vac)type='vacaciones';
+    else if(wk)type='weekend';
+    const dots=evs.map(e=>`<div class="ddot" style="background:${TC[e[3]]||'#555'}"></div>`).join('');
+    const cls=['day',type,tod?'today':''].filter(Boolean).join(' ');
+    h+=`<div class="${cls}" onclick="tapDay(${y},${m},${d})"><span class="dnum">${d}</span><div class="ddots">${dots}</div></div>`;
+  }
+  document.getElementById('cgrid').innerHTML=h;
+  if(window.innerWidth>=700){renderEvListD();setTimeout(fixCellSize,50);}
+}
+
+function renderEvListD(){
+  const{y,m,name}=ML[ci];
+  document.getElementById('evTitleD').textContent=`// ${name.toLowerCase()} ${y}`;
+  const evs=EV.filter(e=>e[0]===y&&e[1]===m).sort((a,b)=>a[2]-b[2]);
+  const el=document.getElementById('evListD');
+  if(!evs.length){el.innerHTML='<div style="color:var(--text3);font-size:.65rem;padding:.3rem 0">Sin eventos este mes</div>';return;}
+  el.innerHTML=evs.map((e,i)=>`<div class="d-ev" style="animation-delay:${i*.04}s"><div class="d-ev-day">${String(e[2]).padStart(2,'0')}</div><div class="d-ev-bar" style="background:${TC[e[3]]||'#555'}"></div><div class="d-ev-txt">${e[4]}</div></div>`).join('');
+}
+
+function tapDay(y,m,d){
+  const k=`${y}-${m}-${d}`,evs=EM[k]||[],vac=isVac(y,m,d);
+  document.getElementById('sheetDate').textContent=`${String(d).padStart(2,'0')} ${MONTH_ES[m]}`;
+  document.getElementById('sheetMname').textContent=y;
+  const body=document.getElementById('sheetBody');
+  if(!evs.length&&!vac){body.innerHTML='<div class="s-empty">Sin eventos este día</div>';}
+  else{
+    const sorted=evs.slice().sort((a,b)=>{
+      const t=s=>{ const m=s[4].match(/(\d{1,2}):(\d{2})/); return m?parseInt(m[1])*60+parseInt(m[2]):0; };
+      return t(a)-t(b);
+    });
+    let html=sorted.map(e=>`<div class="s-ev"><div class="s-ev-bar" style="background:${TC[e[3]]||'#555'}"></div><div class="s-ev-txt"><div class="s-ev-type">${TL[e[3]]||e[3]}</div>${e[4]}</div></div>`).join('');
+    if(vac&&!evs.length)html='<div class="s-ev"><div class="s-ev-bar" style="background:var(--blue)"></div><div class="s-ev-txt"><div class="s-ev-type">Vacaciones</div>Período vacacional</div></div>';
+    body.innerHTML=html;
+  }
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('sheet').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSheet(){
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('sheet').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function renderPhases(){
+  const h=PHASES.map(p=>`<div class="pc" style="border-left-color:${p.color}" onclick="goM(${p.idx});closeSheet()"><div class="pc-label" style="color:${p.color}">${p.label}</div><div class="pc-dates">${p.dates}</div></div>`).join('');
+  document.getElementById('phasesM').innerHTML=h;
+  document.getElementById('phasesD').innerHTML=h;
+}
+function renderLegend(){
+  const h=LEG.map(([c,l])=>`<div class="legrow"><div class="legdot" style="background:${c}"></div>${l}</div>`).join('');
+  document.getElementById('legendM').innerHTML=h;
+  document.getElementById('legendD').innerHTML=h;
+}
+function positionNow(){
+  const s=new Date(2025,8,8).getTime(),e=new Date(2026,6,8).getTime();
+  document.getElementById('tlNow').style.left=Math.max(0,Math.min(100,(TODAY.getTime()-s)/(e-s)*100))+'%';
+}
+
+// Swipe
+let tx=0;
+document.addEventListener('touchstart',e=>{if(!document.getElementById('sheet').classList.contains('open'))tx=e.changedTouches[0].clientX;},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(document.getElementById('sheet').classList.contains('open'))return;
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>55){dx<0?chMonth(1):chMonth(-1);}
+},{passive:true});
+
+function chMonth(d){ci=Math.max(0,Math.min(ML.length-1,ci+d));renderStrip();renderCal();}
+function goM(i){ci=i;renderStrip();renderCal();}
+function goToday(){ci=ML.findIndex(m=>m.y===TODAY.getFullYear()&&m.m===TODAY.getMonth());if(ci<0)ci=0;renderStrip();renderCal();}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')chMonth(-1);
+  if(e.key==='ArrowRight')chMonth(1);
+  if(e.key==='Escape')closeSheet();
+});
+function fixCellSize(){
+  if(window.innerWidth<700)return;
+  const grid=document.getElementById('cgrid');
+  if(!grid)return;
+  const w=grid.getBoundingClientRect().width;
+  if(!w)return;
+  const cellW=w/7;
+  const size=Math.min(cellW,90);
+  grid.style.gridAutoRows=Math.floor(size)+'px';
+}
+window.addEventListener('resize',()=>{renderCal();setTimeout(fixCellSize,50);});
+
+const st=document.createElement('style');
+st.textContent='@keyframes fadeIn{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:none}}';
+document.head.appendChild(st);
+
+renderStrip();renderCal();renderPhases();renderLegend();positionNow();setTimeout(fixCellSize,100);
+
+// MODAL
+const PROXY='https://calendario-proxy.alex27-alonso.workers.dev';
+function openModal(){
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('modalError').classList.remove('show');
+  document.getElementById('modalSubmit').disabled=false;
+  document.getElementById('modalSubmit').textContent='▶ Guardar evento';
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+async function submitEvent(){
+  const date=document.getElementById('evDate').value;
+  const cat=document.getElementById('evCat').value;
+  const desc=document.getElementById('evDesc').value.trim();
+  const time=document.getElementById('evTime').value;
+  const aula=document.getElementById('evAula').value.trim();
+  const pass=document.getElementById('evPassword').value;
+  const errEl=document.getElementById('modalError');
+  const btn=document.getElementById('modalSubmit');
+  errEl.classList.remove('show');
+  if(!date||!cat||!desc){errEl.textContent='Fecha, categoría y descripción son obligatorios.';errEl.classList.add('show');return;}
+  if(!pass){errEl.textContent='Introduce la contraseña.';errEl.classList.add('show');return;}
+  btn.disabled=true;btn.textContent='⏳ Guardando...';
+  try{
+    const getResp=await fetch(`${PROXY}/repos/Beltza07/calendario/contents/index.html`,{headers:{'X-Calendar-Password':pass}});
+    if(getResp.status===401){errEl.textContent='Contraseña incorrecta.';errEl.classList.add('show');btn.disabled=false;btn.textContent='▶ Guardar evento';return;}
+    const fileData=await getResp.json();
+    const content=decodeURIComponent(escape(atob(fileData.content.replace(/\n/g,''))));
+    const[yr,mo,dy]=date.split('-').map(Number);
+    const emojis={'ex-propio':'📝','ex-ordinaria':'📝','ex-duda':'❓','revision':'🔍','tutoria':'🎓','lab':'🧪','especial':'📌','festivo':'','nolectivo':''};
+    const emoji=emojis[cat]||'';
+    let text=emoji?(emoji+' '+desc):desc;
+    if(time)text+=` - ${time}`;
+    if(aula)text+=` · ${aula}`;
+    const evEntry=`  [${yr},${mo-1},${dy},'${cat}','${text.replace(/'/g,"\\'")}']`;
+    const newContent=content.replace(/(  \[2026,6,31,'festivo','San Ignacio de Loyola — Festivo'\],?\n\];)/,`  [2026,6,31,'festivo','San Ignacio de Loyola — Festivo'],\n${evEntry},\n];`);
+    const newBase64=btoa(unescape(encodeURIComponent(newContent)));
+    const putResp=await fetch(`${PROXY}/repos/Beltza07/calendario/contents/index.html`,{method:'PUT',headers:{'X-Calendar-Password':pass,'Content-Type':'application/json'},body:JSON.stringify({message:`Añadir: ${desc}`,content:newBase64,sha:fileData.sha})});
+    if(putResp.ok){btn.textContent='✅ Guardado';setTimeout(()=>{closeModal();alert('Evento añadido. Recarga la página en 1-2 minutos para verlo.');},800);}
+    else{errEl.textContent='Error al guardar. Inténtalo de nuevo.';errEl.classList.add('show');btn.disabled=false;btn.textContent='▶ Guardar evento';}
+  }catch(e){errEl.textContent='Error de conexión: '+e.message;errEl.classList.add('show');btn.disabled=false;btn.textContent='▶ Guardar evento';}
+}
+</script>
+</body>
+</html>
