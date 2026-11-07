@@ -3,6 +3,8 @@
 Apuntes de la charla-taller de Git del **13 de noviembre de 2026**, organizada en 0xDecode.
 Aquí tienes todo lo que hacemos en directo, en orden, para seguirlo o repetirlo en casa.
 
+**Guía interactiva:** https://skillissu3.github.io/git-intro/
+
 > **¿Cómo se usa este repositorio?**
 > Esto es la **teoría y la guía paso a paso**. La práctica en equipo está en otro repo:
 > [`ejercicios-equipo`](https://github.com/skillIssu3/ejercicios-equipo).
