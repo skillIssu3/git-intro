@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guía de Git en Linux</title>
+  <title>Guía Definitiva de Git en Linux</title>
   <style>
     :root {
       --bg-dark: #0d1117;
@@ -50,7 +50,7 @@
     .step-text { flex: 1; min-width: 0; }
 
     /* Code Blocks & Copy */
-    .code-container { position: relative; background: var(--code-bg); border: 1px solid var(--border-color); border-radius: 6px; margin: 10px 0; padding: 12px 15px; padding-right: 90px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 0.9rem; color: #79c0ff; overflow-x: auto; }
+    .code-container { position: relative; background: var(--code-bg); border: 1px solid var(--border-color); border-radius: 6px; margin: 10px 0; padding: 12px 15px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 0.9rem; color: #79c0ff; overflow-x: auto; }
     .copy-btn { position: absolute; right: 10px; top: 10px; background: #21262d; border: 1px solid var(--border-color); color: var(--text-main); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
     .copy-btn:hover { background: #30363d; color: var(--text-bright); }
     code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; color: #79c0ff; }
@@ -97,6 +97,14 @@
     <span id="progressText">0%</span>
   </div>
 
+  <!-- Distro Selector -->
+  <div class="distro-bar">
+    <strong>Selecciona tu distribución:</strong>
+    <button class="distro-btn active" onclick="setDistro('debian', this)">Debian / Ubuntu / Mint</button>
+    <button class="distro-btn" onclick="setDistro('fedora', this)">Fedora / RHEL</button>
+    <button class="distro-btn" onclick="setDistro('arch', this)">Arch Linux / Manjaro</button>
+  </div>
+
   <!-- Navigation Tabs -->
   <div class="nav-tabs">
     <button class="tab-btn active" onclick="openTab('tab1')">1. Instalación & SSH</button>
@@ -130,14 +138,6 @@
           <li>Para VS Code, instala también la extensión <strong>WSL</strong>. Así podrás abrir carpetas con <code>code .</code></li>
         </ul>
       </div>
-    </div>
-
-    <!-- Distro Selector -->
-    <div class="distro-bar">
-      <strong>Selecciona tu distribución:</strong>
-      <button class="distro-btn active" onclick="setDistro('debian', this)">Debian / Ubuntu / WSL</button>
-      <button class="distro-btn" onclick="setDistro('fedora', this)">Fedora / RHEL</button>
-      <button class="distro-btn" onclick="setDistro('arch', this)">Arch Linux / Manjaro</button>
     </div>
 
     <div class="card">
