@@ -80,6 +80,10 @@
     .search-input { width: 100%; padding: 10px; background: var(--code-bg); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main); margin-bottom: 15px; font-size: 1rem; }
 
     .highlight-item { color: #58a6ff; font-weight: 500; }
+
+    details { margin-top: 14px; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 15px; background: var(--code-bg); }
+    details summary { cursor: pointer; color: var(--accent-blue); font-weight: 600; }
+    details[open] summary { margin-bottom: 4px; }
     a { color: var(--accent-blue); }
   </style>
 </head>
@@ -179,29 +183,66 @@
             <li><code>pull.rebase false</code>: dice a Git cómo juntar cambios en <code>git pull</code>. <strong>Sin esto da error</strong> cuando tú y un compañero habéis subido cosas distintas.</li>
             <li><code>core.editor "nano"</code>: el editor que Git abre si necesita que escribas un mensaje.</li>
           </ul>
+
+          <details>
+            <summary>Usar otro editor (opcional)</summary>
+            <p style="margin-top: 10px;">Si prefieres otro editor, no ejecutes la última línea de arriba (<code>core.editor "nano"</code>). Copia en su lugar el comando del editor que quieras:</p>
+
+            <p style="margin-top: 10px;"><strong>VS Code</strong> <span style="color: #8b949e;">(en WSL necesita la extensión WSL y el comando <code>code</code> disponible en la terminal)</span></p>
+            <div class="code-container">
+              git config --global core.editor "code --wait"
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            </div>
+
+            <p><strong>Vim</strong></p>
+            <div class="code-container">
+              git config --global core.editor "vim"
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            </div>
+
+            <p><strong>Neovim</strong></p>
+            <div class="code-container">
+              git config --global core.editor "nvim"
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            </div>
+
+            <p><strong>Sublime Text</strong></p>
+            <div class="code-container">
+              git config --global core.editor "subl -n -w"
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            </div>
+
+            <p><strong>Gedit</strong></p>
+            <div class="code-container">
+              git config --global core.editor "gedit -w -s"
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            </div>
+
+            <p><strong>Kate</strong></p>
+            <div class="code-container">
+              git config --global core.editor "kate --block"
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            </div>
+
+            <p><strong>Nano</strong> <span style="color: #8b949e;">(el de la guía, por si quieres volver a él)</span></p>
+            <div class="code-container">
+              git config --global core.editor "nano"
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            </div>
+
+            <p style="margin-top: 10px; color: #8b949e;">Para ver qué editor tienes configurado ahora mismo:</p>
+            <div class="code-container">
+              git config --global core.editor
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            </div>
+          </details>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <h2>3. ¿Cómo funciona SSH?</h2>
-      <p style="margin-bottom: 10px;">Para subir código a GitHub tienes que demostrar que eres tú. En vez de contraseña usamos un <strong>par de claves</strong>:</p>
-      <ul style="margin-left: 20px; margin-bottom: 10px;">
-        <li><strong>Clave privada</strong> (<code>id_ed25519</code>): se queda en tu ordenador. Nunca se comparte.</li>
-        <li><strong>Clave pública</strong> (<code>id_ed25519.pub</code>): se la das a GitHub. No pasa nada si alguien la ve.</li>
-      </ul>
-      <p>Lo que ocurre por detrás cada vez que te conectas:</p>
-      <div class="flow">
-        <div><b>1.</b> Tu ordenador le dice a GitHub: "quiero entrar".</div>
-        <div><b>2.</b> GitHub, que guarda tu clave pública, te manda un <strong>reto</strong> (un dato aleatorio).</div>
-        <div><b>3.</b> Tu ordenador <strong>firma el reto con la clave privada</strong>.</div>
-        <div><b>4.</b> GitHub comprueba la firma con tu clave pública. Si encaja, sabe que eres tú.</div>
-      </div>
-      <p style="color: #8b949e;">La clave privada <strong>nunca viaja por internet</strong> y no se envía ninguna contraseña.</p>
-    </div>
-
-    <div class="card">
-      <h2>4. Generar la clave SSH y conectar con GitHub</h2>
+      <h2>3. Generar la clave SSH y conectar con GitHub</h2>
+      <p style="margin-bottom: 12px; color: #8b949e;">¿Cómo funciona SSH por detrás? Lo explicamos en la presentación y en el README de <a href="https://github.com/skillIssu3/git-intro" target="_blank" rel="noopener">git-intro</a>.</p>
       <div class="step-item">
         <input type="checkbox" class="chk-step" onchange="updateProgress()">
         <div class="step-text">
