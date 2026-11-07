@@ -5,7 +5,7 @@ Aquí tienes todo lo que hacemos en directo, en orden, para seguirlo o repetirlo
 
 > **¿Cómo se usa este repositorio?**
 > Esto es la **teoría y la guía paso a paso**. La práctica en equipo está en otro repo:
-> [`ejercicios-equipo`](https://github.com/skillissu3/ejercicios-equipo).
+> [`ejercicios-equipo`](https://github.com/skillIssu3/ejercicios-equipo).
 
 No hace falta saber Git, ni terminal. Si sabes algo de Python y usas VS Code, vas sobrado.
 
@@ -349,4 +349,4 @@ git pull
 
 ## Siguiente paso
 
-Ahora, a practicar: clona [`ejercicios-equipo`](https://github.com/skillissu3/ejercicios-equipo) y sigue las rondas con tu grupo.
+Ahora, a practicar: clona [`ejercicios-equipo`](https://github.com/skillIssu3/ejercicios-equipo) y sigue las rondas con tu grupo.
