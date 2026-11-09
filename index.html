@@ -239,19 +239,17 @@
       <div class="step-item">
         <input type="checkbox" class="chk-step" onchange="updateProgress()">
         <div class="step-text">
-          <p>Configura tu nombre y correo (el correo debe ser el de tu cuenta de GitHub), y tres opciones que evitan problemas más adelante:</p>
+          <p>Configura tu nombre y correo (el correo debe ser el de tu cuenta de GitHub), y dos opciones que evitan problemas más adelante:</p>
           <div class="code-container">
             git config --global user.name "<span class="ph" data-key="nombre">Tu Nombre</span>"<br>
             git config --global user.email "<span class="ph" data-key="correo">tu-email@ejemplo.com</span>"<br>
             git config --global init.defaultBranch main<br>
-            git config --global pull.rebase false<br>
             git config --global core.editor "nano"
             <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
           </div>
           <ul style="margin-left: 20px; color: #8b949e; margin-top: 10px;">
             <li><code>user.name</code> y <code>user.email</code>: quién firma tus commits.</li>
             <li><code>init.defaultBranch main</code>: la rama principal se llamará <code>main</code>.</li>
-            <li><code>pull.rebase false</code>: dice a Git cómo juntar cambios en <code>git pull</code>. <strong>Sin esto da error</strong> cuando tú y un compañero habéis subido cosas distintas.</li>
             <li><code>core.editor "nano"</code>: el editor que Git abre si necesita que escribas un mensaje.</li>
           </ul>
 
@@ -469,13 +467,14 @@
           <div class="code-container" style="padding-right: 15px;">
             ! [rejected]  main -> main (fetch first)
           </div>
-          <p>No es un error grave: GitHub tiene commits que tú no tienes. Tráelos y vuelve a subir:</p>
+          <p>No es un error grave: GitHub tiene commits que tú no tienes. Descárgalos con <code>fetch</code>, júntalos con <code>merge</code> y vuelve a subir:</p>
           <div class="code-container">
-            git pull<br>
+            git fetch<br>
+            git merge origin/main<br>
             git push
             <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
           </div>
-          <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;">Si se abre un editor pidiendo un mensaje de merge, guarda y cierra (en nano: Ctrl+O, Enter, Ctrl+X).</p>
+          <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;"><code>fetch</code> solo descarga lo nuevo y no toca tus archivos; <code>merge</code> lo junta con lo tuyo. Si se abre un editor pidiendo un mensaje de merge, guarda y cierra (en nano: Ctrl+O, Enter, Ctrl+X).</p>
         </div>
       </div>
     </div>
@@ -523,7 +522,8 @@
           <strong>8. Volver a main y traer los cambios</strong>
           <div class="code-container">
             git checkout main<br>
-            git pull
+            git fetch<br>
+            git merge origin/main
             <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
           </div>
         </div>
@@ -618,7 +618,10 @@
           <strong>git push</strong> - Sube tus commits a GitHub.
         </div>
         <div class="code-container cmd-item" style="padding-right: 15px;">
-          <strong>git pull</strong> - Descarga e integra los cambios del remoto en tu rama local.
+          <strong>git fetch</strong> - Descarga los cambios del remoto sin tocar tus archivos.
+        </div>
+        <div class="code-container cmd-item" style="padding-right: 15px;">
+          <strong>git merge origin/main</strong> - Junta lo descargado con tu rama.
         </div>
         <div class="code-container cmd-item" style="padding-right: 15px;">
           <strong>git clone URL</strong> - Descarga un repositorio con todo su historial (usa la URL SSH).
