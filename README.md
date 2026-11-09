@@ -100,7 +100,6 @@ git --version
 git config --global user.name "Tu Nombre"
 git config --global user.email "tu-email@ejemplo.com"
 git config --global init.defaultBranch main
-git config --global pull.rebase false
 git config --global core.editor "nano"
 ```
 
@@ -108,7 +107,6 @@ Qué hace cada línea:
 
 - `user.name` y `user.email`: quién firma tus commits.
 - `init.defaultBranch main`: la rama principal se llamará `main`.
-- `pull.rebase false`: define cómo Git junta cambios al hacer `git pull`. **Sin esto, Git da error** cuando tú y un compañero habéis subido cosas distintas.
 - `core.editor "nano"`: el editor que Git abre cuando necesita que escribas un mensaje.
 
 Para ver lo que has configurado: `git config --global --list`
@@ -229,11 +227,14 @@ git clone git@github.com:USUARIO/PROYECTO.git
 cd PROYECTO
 ```
 
-**Traer los cambios de los demás:**
+**Traer los cambios de los demás** (primero se descargan y luego se juntan con lo tuyo):
 
 ```
-git pull
+git fetch
+git merge origin/main
 ```
+
+`git fetch` solo descarga lo nuevo y no toca tus archivos; `git merge origin/main` lo junta con lo tuyo.
 
 **El problema típico:** tú y un compañero habéis hecho commits distintos. El primero en hacer `git push` lo consigue. El segundo ve:
 
@@ -241,7 +242,7 @@ git pull
 ! [rejected]  main -> main (fetch first)
 ```
 
-No es grave: el servidor tiene cosas que tú no tienes. Haz `git pull` para traerlas y vuelve a hacer `git push`.
+No es grave: el servidor tiene cosas que tú no tienes. Haz `git fetch` y `git merge origin/main` para traerlas y vuelve a hacer `git push`.
 
 Si se abre un editor pidiendo un mensaje de *merge*, guarda y cierra (en nano: `Ctrl+O`, `Enter`, `Ctrl+X`).
 
@@ -301,7 +302,8 @@ git push -u origin mi-rama
 
 ```
 git checkout main
-git pull
+git fetch
+git merge origin/main
 ```
 
 ---
@@ -314,7 +316,8 @@ git pull
 | `git add .` | Prepara todos los cambios para el commit |
 | `git commit -m "mensaje"` | Guarda los cambios preparados |
 | `git push` | Sube tus commits a GitHub |
-| `git pull` | Trae y junta los cambios de GitHub |
+| `git fetch` | Descarga los cambios de GitHub sin tocar tus archivos |
+| `git merge origin/main` | Junta lo descargado con tu rama |
 | `git clone URL` | Descarga un repositorio |
 | `git log --oneline --graph` | Historial resumido en forma de árbol |
 | `git diff` | Qué has cambiado y no has preparado todavía |
@@ -336,10 +339,10 @@ git pull
   La URL tiene un error, o el repositorio es privado y no tienes acceso (por ejemplo, aún no has aceptado la invitación).
 
 - **`Need to specify how to reconcile divergent branches`**
-  Falta `git config --global pull.rebase false`.
+  Has usado `git pull`. En esta guía usamos `git fetch` y luego `git merge origin/main`.
 
 - **`! [rejected] ... (fetch first)`**
-  Hay cambios en GitHub que no tienes. `git pull` y luego `git push`.
+  Hay cambios en GitHub que no tienes. `git fetch`, `git merge origin/main` y luego `git push`.
 
 - **`fatal: not a git repository`**
   No estás dentro de una carpeta con Git. Haz `pwd` y `ls`, y entra con `cd` en la carpeta del proyecto.
