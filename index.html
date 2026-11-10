@@ -440,7 +440,7 @@
         <div class="step-text">
           <strong>2. Crear tu archivo con nano y escribir algo dentro</strong>
           <div class="code-container">
-            nano tunombre.txt
+            nano <span class="ph" data-key="usuario" data-default="tunombre">tunombre</span>.txt
             <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
           </div>
           <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;">Escribe cualquier texto. Guarda con <strong>Ctrl+O</strong> y <strong>Enter</strong>, y sal con <strong>Ctrl+X</strong>.</p>
@@ -452,8 +452,8 @@
         <div class="step-text">
           <strong>3. Guardar y subir</strong>
           <div class="code-container">
-            git add tunombre.txt<br>
-            git commit -m "Añado archivo de tunombre"<br>
+            git add <span class="ph" data-key="usuario" data-default="tunombre">tunombre</span>.txt<br>
+            git commit -m "Añado archivo de <span class="ph" data-key="usuario" data-default="tunombre">tunombre</span>"<br>
             git push
             <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
           </div>
@@ -715,7 +715,7 @@
         const input = document.getElementById('ph-' + key);
         const value = cleanValue(key, input.value);
         document.querySelectorAll('.ph[data-key="' + key + '"]').forEach(el => {
-          el.textContent = value || PH_DEFAULTS[key];
+          el.textContent = value || el.dataset.default || PH_DEFAULTS[key];
           el.classList.toggle('filled', value !== '');
         });
         try { localStorage.setItem('git-guia-' + key, input.value); } catch (e) {}
