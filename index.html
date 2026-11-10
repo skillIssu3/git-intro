@@ -536,30 +536,10 @@
 
     <div class="card">
       <h2>A practicar: ejercicios en equipo</h2>
-      <p style="margin-bottom: 10px;">Trabajaréis en grupos de 3 o 4 con un <strong>responsable</strong>. Todas las rondas, paso a paso, están en la <a href="#" class="ir-a-ejercicios" onclick="document.querySelector('.tab-btn[onclick*=tabEj]').click(); window.scrollTo(0, 0); return false;">pestaña <strong>5. Ejercicios</strong></a> de esta guía. Para empezar (Ronda 0):</p>
-
-      <p><strong>Solo el responsable</strong> clona el repositorio de ejercicios:</p>
-      <div class="code-container">
-        git clone git@github.com:skillIssu3/ejercicios-equipo.git<br>
-        cd ejercicios-equipo
-        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+      <p>Trabajaréis en grupos de 3 o 4 con un <strong>responsable</strong>. Las rondas, paso a paso y con botones de copiar, están en la <a href="#" class="ir-a-ejercicios" onclick="document.querySelector('.tab-btn[onclick*=tabEj]').click(); window.scrollTo(0, 0); return false;">pestaña <strong>5. Ejercicios</strong></a> de esta guía, y también en el <a href="https://github.com/skillIssu3/ejercicios-equipo" target="_blank" rel="noopener">README del repositorio</a>.</p>
+      <div class="sim-actions">
+        <button class="sim-btn" onclick="document.querySelector('.tab-btn[onclick*=tabEj]').click(); window.scrollTo(0, 0);">Ir a los ejercicios</button>
       </div>
-      <p style="margin-top: 10px;">Después, <strong>solo el responsable</strong> crea en GitHub un repositorio <strong>vacío</strong> llamado <code>ejercicios-equipo</code> en <strong>su</strong> cuenta, apunta su copia ahí y la sube (por eso aquí se rellena el usuario de quien lo ejecuta):</p>
-      <div class="code-container">
-        git remote set-url origin git@github.com:<span class="ph" data-key="usuario">TU_USUARIO</span>/ejercicios-equipo.git<br>
-        git remote -v<br>
-        git push -u origin main
-        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
-      </div>
-      <p style="margin-top: 10px;">Después invita al resto en <strong>Settings &gt; Collaborators</strong>. Todos deben <strong>aceptar la invitación</strong> (llega por correo).</p>
-
-      <p style="margin-top: 14px;"><strong>Solo el resto del equipo</strong> (quien no es el responsable) clona el repo <strong>del responsable</strong>, no el de la organización:</p>
-      <div class="code-container">
-        git clone git@github.com:<span class="ph" data-key="responsable">USUARIO_DEL_RESPONSABLE</span>/ejercicios-equipo.git<br>
-        cd ejercicios-equipo
-        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
-      </div>
-      <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;">Sustituye <code>USUARIO_DEL_RESPONSABLE</code> por el usuario de GitHub <strong>del responsable</strong> (pídeselo: no es el tuyo). Todas las rondas, paso a paso, están en la <a href="#" class="ir-a-ejercicios" onclick="document.querySelector('.tab-btn[onclick*=tabEj]').click(); window.scrollTo(0, 0); return false;">pestaña <strong>5. Ejercicios</strong></a> de esta guía, y también en el <a href="https://github.com/skillIssu3/ejercicios-equipo" target="_blank" rel="noopener">README del repositorio</a>.</p>
     </div>
   </div>
 
