@@ -135,9 +135,6 @@
       <label>Tu usuario de GitHub
         <input type="text" id="ph-usuario" placeholder="ana-garcia" oninput="updatePh()" autocomplete="off">
       </label>
-      <label>Tu nombre para los archivos (minúsculas, sin tildes)
-        <input type="text" id="ph-miembro" placeholder="ana" oninput="updatePh()" autocomplete="off">
-      </label>
       <label>Usuario de GitHub de tu responsable
         <input type="text" id="ph-responsable" placeholder="jon-ruiz" oninput="updatePh()" autocomplete="off">
       </label>
@@ -610,7 +607,7 @@
     <div class="card">
       <h2>Ejercicios en equipo: la batalla de luchadores</h2>
       <p>Grupos de 3 o 4 personas con un <strong>responsable</strong>. Cada uno crea su luchador y entre todos lo juntáis con Git. No hace falta saber programar: solo cambiar unos valores.</p>
-      <div class="note">Usa los campos de <strong>Tus datos</strong> de arriba: <em>tu usuario de GitHub</em> (para el responsable), <em>tu nombre para los archivos</em> (por ejemplo <code>ana</code>) y <em>el usuario del responsable</em> (para quien no lo es). Si algo da error, <strong>lee el mensaje</strong>: casi siempre dice qué hacer. Versión completa en el <a href="https://github.com/skillIssu3/ejercicios-equipo" target="_blank" rel="noopener">README del repositorio</a>.</div>
+      <div class="note">Usa los campos de <strong>Tus datos</strong> de arriba: <em>tu nombre</em> (de él sale el nombre de tu archivo, por ejemplo <code>ana</code>), <em>tu usuario de GitHub</em> (para el responsable) y <em>el usuario del responsable</em> (para quien no lo es). Si algo da error, <strong>lee el mensaje</strong>: casi siempre dice qué hacer. Versión completa en el <a href="https://github.com/skillIssu3/ejercicios-equipo" target="_blank" rel="noopener">README del repositorio</a>.</div>
     </div>
     <div class="card">
       <h2>Ronda 0: preparar el equipo (15 min)</h2>
@@ -966,7 +963,7 @@
 
     // Datos personalizables (se guardan solo en este navegador)
     const PH_DEFAULTS = { nombre: 'Tu Nombre', correo: 'tu-email@ejemplo.com', usuario: 'TU_USUARIO', miembro: 'tunombre', responsable: 'USUARIO_DEL_RESPONSABLE' };
-    const PH_KEYS = ['nombre', 'correo', 'usuario', 'miembro', 'responsable'];
+    const PH_KEYS = ['nombre', 'correo', 'usuario', 'responsable'];
 
     function cleanValue(key, v) {
       v = v.trim();
@@ -985,6 +982,12 @@
           el.classList.toggle('filled', value !== '');
         });
         try { localStorage.setItem('git-guia-' + key, input.value); } catch (e) {}
+      });
+      // Nombre del archivo del luchador: la primera palabra de "Tu nombre", en minúsculas y sin tildes
+      const miembro = cleanValue('miembro', document.getElementById('ph-nombre').value.trim().split(/\s+/)[0] || '');
+      document.querySelectorAll('.ph[data-key="miembro"]').forEach(el => {
+        el.textContent = miembro || PH_DEFAULTS.miembro;
+        el.classList.toggle('filled', miembro !== '');
       });
     }
 
