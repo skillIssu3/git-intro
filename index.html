@@ -135,6 +135,12 @@
       <label>Tu usuario de GitHub
         <input type="text" id="ph-usuario" placeholder="ana-garcia" oninput="updatePh()" autocomplete="off">
       </label>
+      <label>Tu nombre para los archivos (minúsculas, sin tildes)
+        <input type="text" id="ph-miembro" placeholder="ana" oninput="updatePh()" autocomplete="off">
+      </label>
+      <label>Usuario de GitHub de tu responsable
+        <input type="text" id="ph-responsable" placeholder="jon-ruiz" oninput="updatePh()" autocomplete="off">
+      </label>
     </div>
   </div>
 
@@ -144,6 +150,7 @@
     <button class="tab-btn" onclick="openTab('tab2')">2. Crear Proyecto</button>
     <button class="tab-btn" onclick="openTab('tab3')">3. Trabajo en Equipo</button>
     <button class="tab-btn" onclick="openTab('tab4')">4. Resolver Conflictos</button>
+    <button class="tab-btn" onclick="openTab('tabEj')">5. Ejercicios</button>
     <button class="tab-btn" onclick="openTab('tab5')">Cheat Sheet</button>
   </div>
 
@@ -551,7 +558,7 @@
 
       <p style="margin-top: 14px;"><strong>Solo el resto del equipo</strong> (quien no es el responsable) clona el repo <strong>del responsable</strong>, no el de la organización:</p>
       <div class="code-container">
-        git clone git@github.com:USUARIO_DEL_RESPONSABLE/ejercicios-equipo.git<br>
+        git clone git@github.com:<span class="ph" data-key="responsable">USUARIO_DEL_RESPONSABLE</span>/ejercicios-equipo.git<br>
         cd ejercicios-equipo
         <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
       </div>
@@ -595,6 +602,264 @@
         git merge --abort
         <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
       </div>
+    </div>
+  </div>
+
+  <!-- TAB EJ: Ejercicios en equipo -->
+  <div id="tabEj" class="tab-content">
+    <div class="card">
+      <h2>Ejercicios en equipo: la batalla de luchadores</h2>
+      <p>Grupos de 3 o 4 personas con un <strong>responsable</strong>. Cada uno crea su luchador y entre todos lo juntáis con Git. No hace falta saber programar: solo cambiar unos valores.</p>
+      <div class="note">Usa los campos de <strong>Tus datos</strong> de arriba: <em>tu usuario de GitHub</em> (para el responsable), <em>tu nombre para los archivos</em> (por ejemplo <code>ana</code>) y <em>el usuario del responsable</em> (para quien no lo es). Si algo da error, <strong>lee el mensaje</strong>: casi siempre dice qué hacer. Versión completa en el <a href="https://github.com/skillIssu3/ejercicios-equipo" target="_blank" rel="noopener">README del repositorio</a>.</div>
+    </div>
+    <div class="card">
+      <h2>Ronda 0: preparar el equipo (15 min)</h2>
+      <p style="margin-bottom: 12px;">Un solo miembro del grupo hace de <strong>responsable</strong>. El resto espera al paso 5.</p>
+      <h3>Responsable</h3>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>1. Clona este repositorio</strong>
+          <div class="code-container">
+            git clone git@github.com:skillIssu3/ejercicios-equipo.git<br>
+            cd ejercicios-equipo
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>2. Crea tu repositorio vacío en GitHub</strong>
+          <p>En la web de GitHub, crea un repositorio <strong>vacío</strong> y <strong>sin README</strong> en tu cuenta, llamado <code>ejercicios-equipo</code>.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>3. Apunta tu copia a tu repo y súbela</strong>
+          <div class="code-container">
+            git remote set-url origin git@github.com:<span class="ph" data-key="usuario">TU_USUARIO</span>/ejercicios-equipo.git<br>
+            git remote -v<br>
+            git push -u origin main
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>4. Invita a tu equipo</strong>
+          <p>En tu repo de GitHub: <strong>Settings &gt; Collaborators &gt; Add people</strong>. Cada uno debe <strong>aceptar la invitación</strong> (llega por correo y en la campana de GitHub).</p>
+        </div>
+      </div>
+      <h3>Resto del equipo</h3>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>5. Cuando hayáis aceptado la invitación, clonad el repo <u>del responsable</u></strong> (no el de la organización)
+          <div class="code-container">
+            git clone git@github.com:<span class="ph" data-key="responsable">USUARIO_DEL_RESPONSABLE</span>/ejercicios-equipo.git<br>
+            cd ejercicios-equipo
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+          <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;">Rellena arriba el usuario de GitHub del responsable (pídeselo: no es el tuyo).</p>
+        </div>
+      </div>
+      <h3>Todos</h3>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>Abrid el proyecto en VS Code y comprobad que funciona</strong>
+          <div class="code-container">
+            code .<br>
+            python3 main.py
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+          <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;">Debe decir «Todavía no hay nadie en miembros/».</p>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Ronda 1: todos suben a la vez (10 min)</h2>
+      <p style="margin-bottom: 12px;">Vais a añadir cada uno <strong>vuestro propio luchador</strong>, en su archivo. Nadie toca el de otro, así que no hay conflicto, pero Git os va a parar igualmente: es lo normal cuando varios suben a la vez.</p>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>1. Copia la plantilla con tu nombre</strong> (minúsculas, sin tildes)
+          <div class="code-container">
+            cp miembros/_plantilla.py miembros/<span class="ph" data-key="miembro">tunombre</span>.py
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>2. Cambia los tres valores en VS Code</strong>
+          <p>Abre tu archivo y cambia <code>NOMBRE</code> (el de tu luchador, puede ser un apodo), <code>VIDA</code> (máx. 30) y <code>ATAQUE</code> (máx. 8).</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>3. Comprueba que funciona</strong>
+          <div class="code-container">
+            python3 main.py
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+          <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;">Hacen falta al menos dos luchadores para pelear; mientras tanto te dirá que esperes rivales.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>4. Guárdalo en Git y súbelo</strong>
+          <div class="code-container">
+            git status<br>
+            git add miembros/<span class="ph" data-key="miembro">tunombre</span>.py<br>
+            git commit -m "Añado a <span class="ph" data-key="miembro">tunombre</span>"<br>
+            git push
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+      <div class="warn"><strong>Todos a la vez, a la de tres.</strong> Los primeros en subir lo conseguirán. El resto verá:
+        <div class="code-container" style="padding-right: 15px;">! [rejected]  main -&gt; main (fetch first)</div>
+        No es un error grave: el repositorio remoto tiene commits que tú no tienes. Hay que traerlos primero.</div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>5. Trae lo de tus compañeros, júntalo con lo tuyo y vuelve a subir</strong>
+          <div class="code-container">
+            git fetch<br>
+            git merge origin/main<br>
+            git push
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+          <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;"><code>git fetch</code> solo descarga lo nuevo y no toca tus archivos; <code>git merge origin/main</code> lo junta con lo tuyo. Si se abre un editor pidiendo un mensaje de merge, guarda y cierra (en nano: Ctrl+O, Enter, Ctrl+X).</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>6. Ejecuta el programa</strong>
+          <div class="code-container">
+            python3 main.py
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+          <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;">¡Deberían pelear todos los luchadores del equipo!</p>
+        </div>
+      </div>
+      <div class="note"><strong>Para pensar:</strong> ¿por qué el <code>git merge</code> no dio conflicto? Pista: mirad <code>git log --oneline --graph</code>.</div>
+    </div>
+    <div class="card">
+      <h2>Ronda 2: ramas y Pull Request (15 min)</h2>
+      <p style="margin-bottom: 12px;">Hasta ahora habéis trabajado directamente sobre <code>main</code>. En equipos reales eso es peligroso: un fallo tuyo rompe el trabajo de todos. La solución son las <strong>ramas</strong>.</p>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>1. Asegúrate de estar al día</strong>
+          <div class="code-container">
+            git fetch<br>
+            git merge origin/main
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>2. Crea tu propia rama</strong>
+          <div class="code-container">
+            git checkout -b <span class="ph" data-key="miembro">tunombre</span>-grito
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>3. Añade el grito de guerra</strong>
+          <p>En <code>miembros/<span class="ph" data-key="miembro">tunombre</span>.py</code>, añade una línea al final:</p>
+          <div class="code-container">GRITO = "¡Nadie me gana a piedra, papel o tijera!"<button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>4. Guarda y sube tu rama</strong> (no <code>main</code>)
+          <div class="code-container">
+            git add miembros/<span class="ph" data-key="miembro">tunombre</span>.py<br>
+            git commit -m "Añado grito de guerra de <span class="ph" data-key="miembro">tunombre</span>"<br>
+            git push -u origin <span class="ph" data-key="miembro">tunombre</span>-grito
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>5. Abre el Pull Request en GitHub</strong>
+          <p>Entra en el repo: verás un botón verde <strong>Compare &amp; pull request</strong>. Ábrelo, ponle título y descripción, y créalo.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>6. Revisión cruzada</strong>
+          <p>Un compañero abre tu Pull Request, mira <em>Files changed</em> y, si está bien, pulsa <strong>Merge pull request</strong>.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <input type="checkbox" class="chk-step" onchange="updateProgress()">
+        <div class="step-text">
+          <strong>7. Vuelve a main y trae los cambios</strong>
+          <div class="code-container">
+            git checkout main<br>
+            git fetch<br>
+            git merge origin/main<br>
+            python3 main.py
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+          <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;">Cuando todos hayáis hecho merge de vuestros PR, <code>main.py</code> mostrará el grito de guerra de cada luchador antes del combate.</p>
+        </div>
+      </div>
+      <div class="note">¡Y ya está! Podéis seguir jugando: subid la vida, probad otro ataque, inventad un luchador nuevo... siempre en una rama y con Pull Request.</div>
+    </div>
+    <div class="card">
+      <h2>Ronda 3: el torneo (al final de la charla)</h2>
+      <p style="margin-bottom: 12px;">Cuando os lo indiquen, vuestro luchador se apunta al torneo de <strong>todos los equipos</strong>: <a href="https://github.com/skillIssu3/torneo-luchadores" target="_blank" rel="noopener">github.com/skillIssu3/torneo-luchadores</a>. Las instrucciones (fork, rama y Pull Request) están en el README de ese repositorio.</p>
+      <p>Antes de empezar, ten al día el repo de ejercicios, porque de ahí copiarás tu luchador a <code>luchadores/tuusuario.py</code>:</p>
+      <div class="code-container">
+            git checkout main<br>
+            git fetch<br>
+            git merge origin/main
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+          </div>
+      <div class="note">Los dos repositorios tienen que estar en la misma carpeta (por ejemplo <code>~/git</code>).</div>
+    </div>
+    <div class="card">
+      <h2>Si algo sale mal</h2>
+      <div style="overflow-x: auto;">
+      <table class="cmd-table">
+        <tr><td><code>git status</code></td><td>Qué está pasando ahora mismo. <strong>Es lo primero que hay que mirar.</strong></td></tr>
+        <tr><td><code>git log --oneline --graph</code></td><td>Historial de commits en forma de árbol.</td></tr>
+        <tr><td><code>git remote -v</code></td><td>A qué repositorio estás conectado.</td></tr>
+        <tr><td><code>git branch</code></td><td>En qué rama estás (la marcada con <code>*</code>).</td></tr>
+        <tr><td><code>git diff</code></td><td>Qué has cambiado y todavía no has preparado con <code>add</code>.</td></tr>
+        <tr><td><code>git merge --abort</code></td><td>Cancela un merge con conflictos y vuelve a como estabas.</td></tr>
+      </table>
+      </div>
+      <h3>Errores habituales</h3>
+      <ul style="margin-left: 20px;">
+        <li><code>Permission denied (publickey)</code>: tu clave SSH no está bien subida a GitHub, o estás clonando con <code>https://</code> en vez de <code>git@github.com:</code>.</li>
+        <li><code>Repository not found</code> al clonar el repo de tu responsable: todavía no has aceptado su invitación.</li>
+        <li><code>CONFLICT ... Automatic merge failed</code>: Git no sabe cuál de dos cambios en la misma línea elegir. Abre el archivo en VS Code, deja solo la versión buena (botones <em>Accept...</em>), y luego <code>git add</code>, <code>git commit</code>, <code>git push</code>. Si te agobias: <code>git merge --abort</code>.</li>
+        <li><code>Need to specify how to reconcile divergent branches</code>: has usado <code>git pull</code>. En esta práctica usamos <code>git fetch</code> y luego <code>git merge origin/main</code>.</li>
+        <li><code>cannot run less</code> o <code>unable to execute pager 'less'</code>: tu sistema no tiene el programa <code>less</code>. Ejecuta una vez <code>git config --global core.pager cat</code> y repite el comando.</li>
+        <li><code>remote: Permission to ... denied</code>: estás intentando subir al repo de la organización en vez del de tu responsable. Revisa <code>git remote -v</code>.</li>
+      </ul>
     </div>
   </div>
 
@@ -700,12 +965,13 @@
     }
 
     // Datos personalizables (se guardan solo en este navegador)
-    const PH_DEFAULTS = { nombre: 'Tu Nombre', correo: 'tu-email@ejemplo.com', usuario: 'TU_USUARIO' };
-    const PH_KEYS = ['nombre', 'correo', 'usuario'];
+    const PH_DEFAULTS = { nombre: 'Tu Nombre', correo: 'tu-email@ejemplo.com', usuario: 'TU_USUARIO', miembro: 'tunombre', responsable: 'USUARIO_DEL_RESPONSABLE' };
+    const PH_KEYS = ['nombre', 'correo', 'usuario', 'miembro', 'responsable'];
 
     function cleanValue(key, v) {
       v = v.trim();
-      if (key === 'usuario') return v.replace(/[^A-Za-z0-9-]/g, '');
+      if (key === 'usuario' || key === 'responsable') return v.replace(/[^A-Za-z0-9-]/g, '');
+      if (key === 'miembro') return v.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
       if (key === 'correo') return v.replace(/[\s"'`$\\]/g, '');
       return v.replace(/["`$\\]/g, '');
     }
