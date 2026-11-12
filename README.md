@@ -86,7 +86,7 @@ Truco: pulsa **Tab** para autocompletar nombres, y **↑** para repetir el coman
 sudo apt update && sudo apt install -y git python3 python-is-python3
 ```
 
-> Otras distribuciones: Fedora `sudo dnf install -y git`, Arch `sudo pacman -S git`.
+> Otras distribuciones: Fedora `sudo dnf install -y git python3 python-unversioned-command`, Arch `sudo pacman -S git python`.
 
 Comprueba que funciona:
 

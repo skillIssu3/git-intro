@@ -923,9 +923,9 @@
       if (distro === 'debian') {
         cmd.innerHTML = `sudo apt update && sudo apt install -y git python3 python-is-python3 <button class="copy-btn" onclick="copyCode(this)">Copiar</button>`;
       } else if (distro === 'fedora') {
-        cmd.innerHTML = `sudo dnf install -y git <button class="copy-btn" onclick="copyCode(this)">Copiar</button>`;
+        cmd.innerHTML = `sudo dnf install -y git python3 python-unversioned-command <button class="copy-btn" onclick="copyCode(this)">Copiar</button>`;
       } else if (distro === 'arch') {
-        cmd.innerHTML = `sudo pacman -S --noconfirm git <button class="copy-btn" onclick="copyCode(this)">Copiar</button>`;
+        cmd.innerHTML = `sudo pacman -S --noconfirm git python <button class="copy-btn" onclick="copyCode(this)">Copiar</button>`;
       }
     }
 
