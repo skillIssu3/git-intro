@@ -203,10 +203,11 @@
         <input type="checkbox" class="chk-step" onchange="updateProgress()">
         <div class="step-text">
           <div class="code-container">
-            wsl --install
+            wsl --install -d Debian
             <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
           </div>
-          <p>Reinicia el equipo. Al abrir "Ubuntu" te pedirá crear un usuario y una contraseña.</p>
+          <p>Reinicia el equipo. Al abrir "Debian" te pedirá crear un usuario y una contraseña.</p>
+          <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;">Si ya tenías WSL con Ubuntu, puedes seguir con Ubuntu: lo demás de la guía es igual.</p>
         </div>
       </div>
       <div class="note">
@@ -226,12 +227,14 @@
         <div class="step-text">
           <p>Ejecuta en tu terminal el comando según la distribución seleccionada:</p>
           <div class="code-container" id="cmdInstall">
-            sudo apt update && sudo apt install -y git
+            sudo apt update && sudo apt install -y git python3
             <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
           </div>
-          <p style="margin-top: 10px;">Comprueba que está instalado:</p>
+          <p style="margin-top: 5px; font-size: 0.9em; color: #8b949e;">Con Debian en WSL es normal que salgan avisos como «Failed to connect to system scope bus»: no son errores.</p>
+          <p style="margin-top: 10px;">Comprueba que está instalado (Git, y Python para los ejercicios):</p>
           <div class="code-container">
-            git --version
+            git --version<br>
+            python3 --version
             <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
           </div>
         </div>
@@ -916,7 +919,7 @@
 
       const cmd = document.getElementById('cmdInstall');
       if (distro === 'debian') {
-        cmd.innerHTML = `sudo apt update && sudo apt install -y git <button class="copy-btn" onclick="copyCode(this)">Copiar</button>`;
+        cmd.innerHTML = `sudo apt update && sudo apt install -y git python3 <button class="copy-btn" onclick="copyCode(this)">Copiar</button>`;
       } else if (distro === 'fedora') {
         cmd.innerHTML = `sudo dnf install -y git <button class="copy-btn" onclick="copyCode(this)">Copiar</button>`;
       } else if (distro === 'arch') {

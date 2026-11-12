@@ -35,9 +35,9 @@ Todo el taller se hace con **Git en la terminal de Linux**.
 - **Si usas Linux:** ya lo tienes, salta al punto 1.
 - **Si usas Windows:** instala **WSL** (Linux dentro de Windows). Abre PowerShell **como administrador** y ejecuta:
   ```
-  wsl --install
+  wsl --install -d Debian
   ```
-  Reinicia el equipo. Al volver a abrir "Ubuntu" te pedirá crear un usuario y una contraseña.
+  Reinicia el equipo. Al volver a abrir "Debian" te pedirá crear un usuario y una contraseña. (Si ya tenías WSL con Ubuntu, puedes seguir con Ubuntu.)
 - **VS Code (recomendado):** instálalo y añade la extensión **WSL**. Así podrás abrir carpetas de Linux con `code .`.
 
 > **Importante en WSL:** trabaja siempre dentro de tu carpeta personal (`~/`), **nunca** en `/mnt/c`.
@@ -83,7 +83,7 @@ Truco: pulsa **Tab** para autocompletar nombres, y **↑** para repetir el coman
 **Instalar** (en Ubuntu/Debian/WSL):
 
 ```
-sudo apt update && sudo apt install -y git
+sudo apt update && sudo apt install -y git python3
 ```
 
 > Otras distribuciones: Fedora `sudo dnf install -y git`, Arch `sudo pacman -S git`.
