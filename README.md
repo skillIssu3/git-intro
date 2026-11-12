@@ -92,7 +92,11 @@ Comprueba que funciona:
 
 ```
 git --version
+python3 --version
+python --version
 ```
+
+Los dos comandos de Python deben dar la misma versión: `python` es un atajo de `python3` (por eso se instala `python-is-python3`), así que si se te olvida el 3, también funciona.
 
 **Configurar** tu identidad (el correo debe ser el de tu cuenta de GitHub):
 
