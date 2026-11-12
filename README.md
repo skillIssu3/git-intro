@@ -83,7 +83,7 @@ Truco: pulsa **Tab** para autocompletar nombres, y **↑** para repetir el coman
 **Instalar** (en Ubuntu/Debian/WSL):
 
 ```
-sudo apt update && sudo apt install -y git python3
+sudo apt update && sudo apt install -y git python3 python-is-python3
 ```
 
 > Otras distribuciones: Fedora `sudo dnf install -y git`, Arch `sudo pacman -S git`.
